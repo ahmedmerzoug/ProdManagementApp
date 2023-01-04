@@ -22,7 +22,8 @@
                     <tr>
                         <th>
                             <button class="btn btn-primary"
-                            (click)="toggleImage()"> {{showImage ? 'Hide' : 'Show'}} Image</button>
+                            (click)="toggleImage()">
+                             {{showImage ? 'Hide' : 'Show'}} Image</button>
                         </th>
                         <th>Product</th>
                         <th>Code</th>
@@ -44,7 +45,9 @@
                         <td>{{product.productCode | lowercase | convertcharToSpaces : '-'}}</td>
                         <td>{{product.releaseDate}}</td>       
                         <td>{{product.price |currency | uppercase}}</td>
-                        <td>{{product.starRating}}</td> 
+                        <td> <pm-start
+                            [rating]="product.starRating"
+                            (ratingClicked)="onRatingClicked($event)"></pm-start></td> 
                                              
                     </tr>
 

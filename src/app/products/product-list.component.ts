@@ -65,5 +65,10 @@ export class ProductListComponent implements OnInit{
     
     ngOnInit(): void {
         console.log("Method not implemented.!");
+        this.filtredProductsByName = this.products;
+    }
+
+    onRatingClicked(value : string) : void{
+        this.productPageTitle = value;
     }
 }
