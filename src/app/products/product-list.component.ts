@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { IProduct } from "./Iproducts";
+import { ProductService } from "./product.service";
 
 
 @Component({
@@ -10,6 +11,7 @@ import { IProduct } from "./Iproducts";
 
 export class ProductListComponent implements OnInit{
 
+  
   productPageTitle: string = "Test Product List"
   imageWidth: number = 50
   imageMargin=  2
@@ -29,28 +31,10 @@ export class ProductListComponent implements OnInit{
   }
 
   filtredProductsByName :IProduct [] = [];
-  products: IProduct [] = [
-    {
-      "productId": 1,
-      "productName": "Leaf Rake",
-      "productCode": "GDN-0011",
-      "releaseDate": "March 19, 2021",
-      "description": "Leaf rake with 48-inch wooden handle.",
-      "price": 19.95,
-      "starRating": 3.2,
-      "imageUrl": "assets/images/leaf_rake.png"
-    },
-    {
-      "productId": 2,
-      "productName": "Garden Cart",
-      "productCode": "GDN-0023",
-      "releaseDate": "March 18, 2021",
-      "description": "15 gallon capacity rolling garden cart",
-      "price": 32.99,
-      "starRating": 4.2,
-      "imageUrl": "assets/images/garden_cart.png"
-    }]
+  products: IProduct [] = [];
 
+    constructor(private productservice : ProductService)
+    {}
     toggleImage() : void
     {
         this.showImage = !this.showImage;
@@ -65,10 +49,14 @@ export class ProductListComponent implements OnInit{
     
     ngOnInit(): void {
         console.log("Method not implemented.!");
+        this.products = this.productservice.getProducts();
         this.filtredProductsByName = this.products;
+        
     }
 
     onRatingClicked(value : string) : void{
         this.productPageTitle = value;
     }
+
+   
 }
