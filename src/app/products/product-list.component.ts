@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 import { IProduct } from "./Iproducts";
 import { ProductService } from "./product.service";
 
@@ -9,13 +10,15 @@ import { ProductService } from "./product.service";
   styleUrls: ['./product-list.component.css']
 })
 
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit, OnDestroy{
 
   
   productPageTitle: string = "Test Product List"
   imageWidth: number = 50
   imageMargin=  2
   showImage = false
+  errorMessage:string = ""
+  sub!: Subscription;
   
   private _listFilter : string =""
   get listFilter() : string
@@ -49,10 +52,18 @@ export class ProductListComponent implements OnInit{
     
     ngOnInit(): void {
         console.log("Method not implemented.!");
-        this.products = this.productservice.getProducts();
-        this.filtredProductsByName = this.products;
-        
+        this.sub = this.productservice.getProducts().subscribe({
+          next: products => {
+            this.products = products,
+            this.filtredProductsByName = this.products;
+          },
+          error: err =>this.errorMessage = err
+        });    
     }
+
+    ngOnDestroy(): void {
+      this.sub.unsubscribe();
+     }
 
     onRatingClicked(value : string) : void{
         this.productPageTitle = value;
